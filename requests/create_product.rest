@@ -1,0 +1,9 @@
+#Probar endpoint utilizando la extension de VSCode 'REST Client'
+#y pulsando el boton 'Send Request' que aparece debajo de este mensaje
+POST http://localhost:8080/api/productos
+content-type: application/json
+
+{
+"name": "Yerba mate", "price": 250, "description": "Yerba mate elaborada con palo", 
+"code": "123", "stock": 30, "thumbnail": "https://www.taragui.com/img/products/x1.jpg.pagespeed.ic.0CLzXnsIOL.jpg" 
+}
