@@ -1,7 +1,8 @@
 const Product = require('../models/Product')
 const Service = require('../services/product/ProductService')
+const { config } = require('../config/')
 
-const service = new Service('products.json')
+const service = new Service(config.FILESYSTEM_DB.products)
 
 exports.getProducts = (request, response, next) => {
   try {

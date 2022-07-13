@@ -1,6 +1,7 @@
 const app = require('./app')
+const { config } = require('./config/')
 
-const PORT = process.env.PORT ? process.env.PORT : 8080
+const PORT = config.server.PORT
 
 const server = app.listen(PORT, () => {
   console.log(`Express server listening on: \nhttp://localhost:${PORT}`)

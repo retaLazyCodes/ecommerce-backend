@@ -3,13 +3,13 @@ const path = require('path')
 const Product = require('../../models/Product')
 
 module.exports = class ProductService {
-  constructor (filename = 'file.json') {
+  constructor(filename = 'file.json') {
     this.filename = filename
     this.products = this.#initProducts()
     this.lastId = 0
   }
 
-  async create (product) {
+  async create(product) {
     if (product instanceof Product === false) {
       console.log('el parametro no es de tipo Product')
       return -1
@@ -21,29 +21,29 @@ module.exports = class ProductService {
     return product.id
   }
 
-  getById (id) {
+  getById(id) {
     const product = this.products.find(p => p.id === parseInt(id))
     return product !== undefined ? product : null
   }
 
-  getAll () {
+  getAll() {
     return this.products
   }
 
-  async deleteById (id) {
+  async deleteById(id) {
     const updatedProducts = this.products.filter(p => p.id !== id)
     this.products = updatedProducts
     await this.#deleteFromDisk()
     await this.#writeInDisk()
   }
 
-  async deleteAll () {
+  async deleteAll() {
     await this.#deleteFromDisk()
     this.products = []
   }
 
   // private methods
-  #add (product) {
+  #add(product) {
     console.log(this.products)
     if (Array.isArray(this.products)) {
       this.products.push(product)
@@ -53,7 +53,7 @@ module.exports = class ProductService {
     }
   }
 
-  async #writeInDisk () {
+  async #writeInDisk() {
     const jsonProducts = JSON.stringify(this.products, null, 2)
 
     fs.promises.writeFile(this.filename, jsonProducts)
@@ -65,7 +65,7 @@ module.exports = class ProductService {
       })
   }
 
-  async #deleteFromDisk () {
+  async #deleteFromDisk() {
     fs.promises.unlink(this.filename)
       .then(() => {
         console.log('file deleted')
@@ -75,7 +75,7 @@ module.exports = class ProductService {
       })
   }
 
-  #getLastId () {
+  #getLastId() {
     try {
       if (this.#existFile()) {
         const products = this.#readFromDisk()
@@ -87,7 +87,7 @@ module.exports = class ProductService {
     }
   }
 
-  #readFromDisk () {
+  #readFromDisk() {
     try {
       if (this.#existFile()) {
         const content = fs.readFileSync(path.join(process.cwd(), this.filename), 'utf8').toString()
@@ -99,11 +99,11 @@ module.exports = class ProductService {
     }
   }
 
-  #existFile () {
+  #existFile() {
     return fs.existsSync(this.filename)
   }
 
-  #initProducts () {
+  #initProducts() {
     const products = this.#readFromDisk()
     console.log(products)
     if (products === '[]') {

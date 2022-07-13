@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const productsController = require('../controllers/products.controllers')
 const authorizeUserRole = require('../middlewares/authorizeUserRole')
-const { USER_ROLE } = require('../config/user_config')
+const { config } = require('../config/')
+
+const USER_ROLE = config.USER_ROLE
 
 router.get('/:id?', productsController.getProducts)
 router.post('/', authorizeUserRole(USER_ROLE), productsController.createProduct)
