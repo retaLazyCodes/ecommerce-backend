@@ -3,7 +3,7 @@ const productsController = require('../controllers/products.controllers')
 const authorizeUserRole = require('../middlewares/authorizeUserRole')
 const { config } = require('../config/')
 
-const USER_ROLE = config.USER_ROLE
+const USER_ROLE = config.USER_ADMIN
 
 router.get('/:id?', productsController.getProducts)
 router.post('/', authorizeUserRole(USER_ROLE), productsController.createProduct)

@@ -1,12 +1,12 @@
 const DEV_PORT = 8080
-const USER_ROLE = true
+const USER_ADMIN = true
 
 const config = {
     FILESYSTEM_DB: {
         products: 'products.json',
         carts: 'carts.json'
     },
-    USER_ROLE,
+    USER_ADMIN,
     server: {
         PORT: process.env.PORT ? process.env.PORT : DEV_PORT,
         routes: {
