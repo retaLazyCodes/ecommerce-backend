@@ -30,8 +30,16 @@ module.exports = class ProductService {
     return this.products
   }
 
+  async updateById (id, product) {
+    const productIndex = this.products.findIndex(p => p.id === parseInt(id))
+    product.id = parseInt(id)
+    this.products.splice(productIndex, 1, product)
+    await this.#deleteFromDisk()
+    await this.#writeInDisk()
+  }
+
   async deleteById (id) {
-    const updatedProducts = this.products.filter(p => p.id !== id)
+    const updatedProducts = this.products.filter(p => p.id !== parseInt(id))
     this.products = updatedProducts
     await this.#deleteFromDisk()
     await this.#writeInDisk()

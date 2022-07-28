@@ -35,7 +35,12 @@ exports.createProduct = async (request, response, next) => {
 
 exports.updateProduct = async (request, response, next) => {
   try {
-    response.status(204).json({ success: true })
+    const productId = request.params.id
+    const { name, price, description, code, stock, thumbnail } = request.body
+    const product = new Product(name, price, description, code, stock, thumbnail)
+    service.updateById(productId, product).then(() => {
+      response.status(204).json({ success: true })
+    })
   } catch (error) {
     next(error)
   }
@@ -43,7 +48,10 @@ exports.updateProduct = async (request, response, next) => {
 
 exports.deleteProduct = (request, response, next) => {
   try {
-    response.status(204).json({ success: true })
+    const productId = request.params.id
+    service.deleteById(productId).then(() => {
+      response.status(204).json({ success: true })
+    })
   } catch (error) {
     next(error)
   }
