@@ -1,0 +1,3 @@
+POST http://localhost:8080/api/carrito/2/productos/1
+content-type: application/json
+
