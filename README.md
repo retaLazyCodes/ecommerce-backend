@@ -33,11 +33,10 @@ Desde la terminal ingresando:
 ```
 git clone -b entrega02 https://github.com/retaLazyCodes/ecommerce-backend
 ```
-o haciendo click en el botón verde **Code** y finalmente en **Download ZIP**, luego descomprimirlo.
 
 ### 2 - Instalación de dependencias
 
-Con la consola posicionada dentro de la carpeta raíz del proyecto, ejecutar el siguiente comando
+Con la terminal posicionada dentro de la carpeta raíz del proyecto, ejecutar el siguiente comando
 
 ```
 npm install
@@ -45,15 +44,18 @@ npm install
 
 ### 3 - Iniciar el servidor
 
-- Se deberá crear un archivo `.env` dentro de la carpeta raíz del proyecto.
+- Se deberá crear un archivo con el nombre `.env` dentro de la carpeta raíz del proyecto.
 - El archivo `.env` debe tener las siguientes variables.
 
 ```
 DEV_PORT=8080
-MONGO_DB_URI_DEV=mongodb://127.0.0.1:27017/ecommerce_db
+MONGO_DB_URI=mongodb://127.0.0.1:27017/ecommerce_db
 ```
 
-- Con la consola posicionada en la  carpeta raíz del proyecto correr el comando `npm run dev`
+- Con la terminal posicionada en la  carpeta raíz del proyecto correr el comando
+```
+npm run dev
+```
 
 ### 4 - Ejecutar tests
 
