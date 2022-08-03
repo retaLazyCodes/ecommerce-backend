@@ -6,7 +6,7 @@ Proyecto final del curso de backend de Coderhouse
 - `GET http://localhost:8080/productos` Obtiene todos los productos de la BD.
 
 ### Carrito
-- `GET http://localhost:8080/api/carrito/<id_carrito>/productos` Muestra un listado de las personas que se inscribieron al evento.
+- `GET http://localhost:8080/api/carrito/<id_carrito>/productos` Obtiene todos los productos de un carrito dado su id.
 
 ## Ver [Guía de commits](https://github.com/retaLazyCodes/guia-commits) utilizada
 
