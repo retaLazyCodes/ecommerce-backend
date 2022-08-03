@@ -1,14 +1,13 @@
 const Cart = require('../models/Cart')
-const CartService = require('../services/cart/CartService')
-const ProductService = require('../services/product/ProductService')
+const CartService = require('../services/cart/cart.service.js')
+const { CartRepository } = require('../repositories/index')
 const { config } = require('../config/')
 
-const service = new CartService(config.FILESYSTEM_DB.carts)
-const productService = new ProductService(config.FILESYSTEM_DB.products)
+const service = new CartService(new CartRepository())
 
 exports.createCart = async (request, response, next) => {
   try {
-    const cart = new Cart()
+    const cart = new Cart({ timestamp: new Date() })
     const cartId = await service.create(cart)
     response.status(201).json({ id: cartId, success: true })
   } catch (error) {
@@ -19,22 +18,24 @@ exports.createCart = async (request, response, next) => {
 exports.deleteCart = (request, response, next) => {
   try {
     const cartId = request.params.id
-    service.deleteById(cartId).then(() => {
+    service.delete(cartId).then(() => {
       response.status(204).json({ success: true })
     })
+      .catch(next)
   } catch (error) {
     next(error)
   }
 }
 
-exports.getProductsByCartId = (request, response, next) => {
+exports.getProductsByCartId = async (request, response, next) => {
   try {
     const cartId = request.params.id
-    const cart = service.getById(cartId)
-    if (cart !== null) {
-      response.status(200).json({ products: cart._products, success: true })
+    const cart = await service.getProducts(cartId)
+    if (cart) {
+      response.status(200).json({ products: cart.products, success: true })
+    } else {
+      response.status(404).json({ success: false })
     }
-    response.status(404).json({ success: false })
   } catch (error) {
     next(error)
   }
@@ -44,11 +45,7 @@ exports.addProductToCart = async (request, response, next) => {
   try {
     const cartId = request.params.id
     const productId = request.params.id_prod
-    const product = await productService.getById(productId)
-    if (product !== null) {
-      service.addProductToCart(cartId, product)
-    }
-
+    await service.addProduct(cartId, productId)
     response.status(201).json({ success: true })
   } catch (error) {
     next(error)
@@ -59,7 +56,7 @@ exports.deleteProductOfCart = async (request, response, next) => {
   try {
     const cartId = request.params.id
     const productId = request.params.id_prod
-    await service.deleteProductOfCart(cartId, productId)
+    await service.deleteProduct(cartId, productId)
     response.status(204).json({ success: true })
   } catch (error) {
     next(error)

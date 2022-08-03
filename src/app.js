@@ -1,3 +1,5 @@
+require('./config/dbConnection')
+
 const express = require('express')
 const notFound = require('./middlewares/notFound.js')
 const { productsRouter, cartsRouter } = require('./routes/')

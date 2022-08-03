@@ -1,17 +1,23 @@
-module.exports = class Product {
-  constructor (name, price, description, code, stock, thumbnail) {
-    this.id = 0
-    this.timestamp = new Date()
-    this.name = name
-    this.description = description
-    this.code = code
-    this.price = price
-    this.stock = stock
-    this.thumbnail = thumbnail
-  }
+const { Schema, model } = require('mongoose')
 
-  get prop () { return this.id }
-  set prop (value) {
-    this.id = value
+const productSchema = new Schema({
+  timestamp: Date,
+  name: String,
+  description: String,
+  code: String,
+  price: Number,
+  stock: Number,
+  thumbnail: String
+})
+
+productSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
   }
-}
+})
+
+const Product = model('Product', productSchema)
+
+module.exports = Product

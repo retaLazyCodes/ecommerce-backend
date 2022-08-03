@@ -1,17 +1,21 @@
-module.exports = class Cart {
-  constructor () {
-    this._id = 0
-    this.timestamp = new Date()
-    this._products = []
-  }
+const { Schema, model } = require('mongoose')
 
-  get id () { return this._id }
-  set id (value) {
-    this._id = value
-  }
+const cartSchema = new Schema({
+  timestamp: Date,
+  products: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }]
+})
 
-  get products () { return this._products }
-  set products (value) {
-    this._products = value
+cartSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
   }
-}
+})
+
+const Cart = model('Cart', cartSchema)
+
+module.exports = Cart
