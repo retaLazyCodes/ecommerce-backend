@@ -1,12 +1,16 @@
-const DEV_PORT = 8080
+require('dotenv').config()
+const {
+  DEV_PORT,
+  MONGO_DB_URI,
+  DB_SERVICE
+} = process.env
+
 const USER_ADMIN = true
 
 const config = {
-  FILESYSTEM_DB: {
-    products: 'products.json',
-    carts: 'carts.json'
-  },
   USER_ADMIN,
+  MONGO_DB_URI,
+  DB_SERVICE,
   server: {
     PORT: process.env.PORT ? process.env.PORT : DEV_PORT,
     routes: {
