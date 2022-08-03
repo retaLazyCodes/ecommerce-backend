@@ -1,1 +1,1 @@
-DELETE  http://localhost:8080/api/productos/1
+DELETE  http://localhost:8080/api/productos/62ea78cde17c2baeba8059655

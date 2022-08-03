@@ -4,6 +4,6 @@ POST http://localhost:8080/api/productos
 content-type: application/json
 
 {
-"name": "Yerba mate", "price": 250, "description": "Yerba mate elaborada con palo", 
+"name": "Yerba mate", "price": 380, "description": "Yerba mate elaborada con palo", 
 "code": "123", "stock": 30, "thumbnail": "https://www.taragui.com/img/products/x1.jpg.pagespeed.ic.0CLzXnsIOL.jpg" 
 }
