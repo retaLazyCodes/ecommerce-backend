@@ -1,4 +1,4 @@
-module.exports = (request, response, next) => {
+export const notFound = (request, response, next) => {
   return response.status(401).json(
     {
       error: -2,

@@ -1,9 +1,8 @@
-require('./config/dbConnection')
-
-const express = require('express')
-const notFound = require('./middlewares/notFound.js')
-const { productsRouter, cartsRouter } = require('./routes/')
-const { config } = require('./config/')
+import './config/dbConnection.js'
+import express from 'express'
+import { notFound } from './middlewares/notFound.js'
+import { productsRouter, cartsRouter } from './routes/index.js'
+import { config } from './config/index.js'
 
 const app = express()
 
@@ -17,4 +16,4 @@ app.use(config.server.routes.carts, cartsRouter)
 // custom middlewares
 app.use(notFound)
 
-module.exports = app
+export { app }

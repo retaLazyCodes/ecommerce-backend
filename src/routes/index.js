@@ -1,4 +1,4 @@
-const productsRouter = require('./products.routes')
-const cartsRouter = require('./cart.routes')
+import productsRouter from './products.routes.js'
+import cartsRouter from './cart.routes.js'
 
-module.exports = { productsRouter, cartsRouter }
+export { productsRouter, cartsRouter }

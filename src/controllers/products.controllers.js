@@ -1,11 +1,10 @@
-const Product = require('../models/Product')
-const ProductService = require('../services/product/product.service.js')
-const { ProductRepository } = require('../repositories/index')
-const { config } = require('../config/')
+import { Product } from '../models/Product.js'
+import { ProductService } from '../services/index.js'
+import { ProductRepository } from '../repositories/index.js'
 
 const service = new ProductService(new ProductRepository())
 
-exports.getProducts = async (request, response, next) => {
+const getProducts = async (request, response, next) => {
   try {
     const productId = request.params.id
     if (productId) {
@@ -20,7 +19,7 @@ exports.getProducts = async (request, response, next) => {
   }
 }
 
-exports.createProduct = async (request, response, next) => {
+const createProduct = async (request, response, next) => {
   try {
     const { name, price, description, code, stock, thumbnail } = request.body
     const product = new Product({ name, price, description, code, stock, thumbnail })
@@ -31,7 +30,7 @@ exports.createProduct = async (request, response, next) => {
   }
 }
 
-exports.updateProduct = async (request, response, next) => {
+const updateProduct = async (request, response, next) => {
   try {
     const productId = request.params.id
     const { name, price, description, code, stock, thumbnail } = request.body
@@ -45,7 +44,7 @@ exports.updateProduct = async (request, response, next) => {
   }
 }
 
-exports.deleteProduct = async (request, response, next) => {
+const deleteProduct = async (request, response, next) => {
   try {
     const productId = request.params.id
     await service.delete(productId).then(() => {
@@ -55,4 +54,11 @@ exports.deleteProduct = async (request, response, next) => {
   } catch (error) {
     next(error)
   }
+}
+
+export default {
+  getProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct
 }

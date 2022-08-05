@@ -23,10 +23,12 @@ const ERROR_HANDLERS = {
   }
 }
 
-module.exports = (error, request, response, next) => {
+const handleErrors = (error, request, response, next) => {
   console.error(error)
   const handler =
     ERROR_HANDLERS[error.name] || ERROR_HANDLERS.defaultError
 
   handler(response, error)
 }
+
+export { handleErrors }

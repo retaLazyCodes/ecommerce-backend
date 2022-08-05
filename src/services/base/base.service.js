@@ -1,4 +1,4 @@
-class BaseService {
+export class BaseService {
   constructor (Repository) {
     this.repository = Repository
   }
@@ -26,5 +26,3 @@ class BaseService {
     await this.repository.delete(id)
   }
 }
-
-module.exports = BaseService

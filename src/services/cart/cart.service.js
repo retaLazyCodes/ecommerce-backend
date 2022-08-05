@@ -1,6 +1,6 @@
-const BaseService = require('../base/base.service')
+import { BaseService } from '../base/base.service.js'
 
-class CartService extends BaseService {
+export class CartService extends BaseService {
   constructor (CartRepository) {
     super(CartRepository)
     this._cartRepository = CartRepository
@@ -18,5 +18,3 @@ class CartService extends BaseService {
     return await this._cartRepository.deleteProduct(id, productId)
   }
 }
-
-module.exports = CartService

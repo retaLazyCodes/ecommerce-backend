@@ -1,6 +1,4 @@
-module.exports = authorizeUserRole
-
-function authorizeUserRole (role = false) {
+export function authorizeUserRole (role = false) {
   return [
     (req, res, next) => {
       if (role !== true) {

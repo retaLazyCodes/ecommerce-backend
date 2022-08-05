@@ -1,5 +1,5 @@
-const BaseService = require('./base/base.service')
-const CartService = require('./cart/cart.service.js')
-const ProductService = require('./product/product.service.js')
+import { BaseService } from './base/base.service.js'
+import { CartService } from './cart/cart.service.js'
+import { ProductService } from './product/product.service.js'
 
-module.exports = { BaseService, CartService, ProductService }
+export { BaseService, CartService, ProductService }

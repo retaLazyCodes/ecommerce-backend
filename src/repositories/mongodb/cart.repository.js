@@ -1,8 +1,8 @@
-const BaseRepository = require('./base.repository')
-const ProductRepository = require('./product.repository')
-const Cart = require('../../models/Cart')
+import { BaseRepository } from './base.repository.js'
+import { ProductRepository } from './product.repository.js'
+import { Cart } from '../../models/Cart.js'
 
-class CartRepository extends BaseRepository {
+export class CartRepository extends BaseRepository {
   constructor () {
     super(Cart)
   }
@@ -42,5 +42,3 @@ class CartRepository extends BaseRepository {
     return { cart, product }
   }
 }
-
-module.exports = CartRepository

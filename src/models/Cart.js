@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose')
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
 
 const cartSchema = new Schema({
   timestamp: Date,
@@ -16,6 +17,4 @@ cartSchema.set('toJSON', {
   }
 })
 
-const Cart = model('Cart', cartSchema)
-
-module.exports = Cart
+export const Cart = model('Cart', cartSchema)

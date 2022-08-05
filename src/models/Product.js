@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose')
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
 
 const productSchema = new Schema({
   timestamp: Date,
@@ -18,6 +19,4 @@ productSchema.set('toJSON', {
   }
 })
 
-const Product = model('Product', productSchema)
-
-module.exports = Product
+export const Product = model('Product', productSchema)

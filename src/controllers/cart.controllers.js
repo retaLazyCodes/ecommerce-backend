@@ -1,11 +1,10 @@
-const Cart = require('../models/Cart')
-const CartService = require('../services/cart/cart.service.js')
-const { CartRepository } = require('../repositories/index')
-const { config } = require('../config/')
+import { Cart } from '../models/Cart.js'
+import { CartService } from '../services/index.js'
+import { CartRepository } from '../repositories/index.js'
 
 const service = new CartService(new CartRepository())
 
-exports.createCart = async (request, response, next) => {
+const createCart = async (request, response, next) => {
   try {
     const cart = new Cart({ timestamp: new Date() })
     const cartId = await service.create(cart)
@@ -15,7 +14,7 @@ exports.createCart = async (request, response, next) => {
   }
 }
 
-exports.deleteCart = (request, response, next) => {
+const deleteCart = (request, response, next) => {
   try {
     const cartId = request.params.id
     service.delete(cartId).then(() => {
@@ -27,7 +26,7 @@ exports.deleteCart = (request, response, next) => {
   }
 }
 
-exports.getProductsByCartId = async (request, response, next) => {
+const getProductsByCartId = async (request, response, next) => {
   try {
     const cartId = request.params.id
     const cart = await service.getProducts(cartId)
@@ -41,7 +40,7 @@ exports.getProductsByCartId = async (request, response, next) => {
   }
 }
 
-exports.addProductToCart = async (request, response, next) => {
+const addProductToCart = async (request, response, next) => {
   try {
     const cartId = request.params.id
     const productId = request.params.id_prod
@@ -52,7 +51,7 @@ exports.addProductToCart = async (request, response, next) => {
   }
 }
 
-exports.deleteProductOfCart = async (request, response, next) => {
+const deleteProductOfCart = async (request, response, next) => {
   try {
     const cartId = request.params.id
     const productId = request.params.id_prod
@@ -61,4 +60,12 @@ exports.deleteProductOfCart = async (request, response, next) => {
   } catch (error) {
     next(error)
   }
+}
+
+export default {
+  createCart,
+  deleteCart,
+  getProductsByCartId,
+  addProductToCart,
+  deleteProductOfCart
 }

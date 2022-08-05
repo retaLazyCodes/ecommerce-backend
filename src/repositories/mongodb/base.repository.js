@@ -1,4 +1,4 @@
-class BaseRepository {
+export class BaseRepository {
   constructor (model) {
     this.model = model
   }
@@ -23,5 +23,3 @@ class BaseRepository {
     return true
   }
 }
-
-module.exports = BaseRepository

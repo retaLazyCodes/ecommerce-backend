@@ -1,9 +1,7 @@
-const router = require('express').Router()
-const cartController = require('../controllers/cart.controllers')
+import { Router } from 'express'
+import cartController from '../controllers/cart.controllers.js'
 
-router.get('/', (req, res) => {
-  res.json('todo joya en el carrito 😎')
-})
+const router = Router()
 
 router.post('/', cartController.createCart)
 router.delete('/:id', cartController.deleteCart)
@@ -11,4 +9,4 @@ router.get('/:id/productos', cartController.getProductsByCartId)
 router.post('/:id/productos/:id_prod', cartController.addProductToCart)
 router.delete('/:id/productos/:id_prod', cartController.deleteProductOfCart)
 
-module.exports = router
+export default router

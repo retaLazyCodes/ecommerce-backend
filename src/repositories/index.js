@@ -1,5 +1,5 @@
-const BaseRepository = require('./mongodb/base.repository')
-const CartRepository = require('./mongodb/cart.repository')
-const ProductRepository = require('./mongodb/product.repository')
+import { BaseRepository } from './mongodb/base.repository.js'
+import { CartRepository } from './mongodb/cart.repository.js'
+import { ProductRepository } from './mongodb/product.repository.js'
 
-module.exports = { BaseRepository, CartRepository, ProductRepository }
+export { BaseRepository, CartRepository, ProductRepository }
