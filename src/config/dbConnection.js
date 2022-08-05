@@ -1,21 +1,30 @@
-const mongoose = require('mongoose')
-const { config } = require('./index')
+import dotenv from 'dotenv'
+dotenv.config()
 
-const connectionString = config.MONGO_DB_URI
+const {
+  DB_SERVICE
+} = process.env
 
-// conexión a mongodb
-mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    console.log('Database connected')
-  }).catch(err => {
-    console.error('Error trying connect to Database\n', err)
-  })
+async function getDatabaseService () {
+  switch (DB_SERVICE) {
+    case 'MONGO':
+      import('./db/mongodb.js')
+      break
+    case 'FIREBASE':
+      import('./db/firebase.js')
+        .then(module => module.getDatabase())
+      break
+    // case 'MYSQL':
+    //   require('./db/firebase')
+    //   break
+    // case 'SQLITE':
+    //   require('./db/firebase')
+    //   break
+    default:
+      throw new Error(`Unknown database service: ${DB_SERVICE}`)
+  }
+}
 
-/*
-process.on('uncaughtException', () => {
-  mongoose.connection.disconnect()
-})
-*/
+(async function () {
+  return await getDatabaseService()
+})()

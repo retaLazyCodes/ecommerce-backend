@@ -1,4 +1,6 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+
 const {
   DEV_PORT,
   MONGO_DB_URI,
@@ -21,4 +23,4 @@ const config = {
   }
 }
 
-module.exports = { config }
+export { config }
