@@ -8,28 +8,33 @@ export class FirebaseCartRepository extends FirebaseBaseRepository {
   }
 
   async getProducts (id) {
-    const error = new Error()
-    error.status = 400
-    error.message = 'NotImplementedError'
-    throw error
+    const cart = await this.get(id)
+    if (cart[0]?.products) {
+      return cart[0].products
+    }
+    return null
   }
 
   async addProduct (id, productId) {
-    const error = new Error()
-    error.status = 400
-    error.message = 'NotImplementedError'
-    throw error
+    const { cart, product } = await this.#getCartAndProduct(id, productId)
+    cart.products.push(product)
+    const filter = id
+    const update = { products: cart.products }
+    return await this.update(filter, update)
   }
 
   async deleteProduct (id, productId) {
-    const error = new Error()
-    error.status = 400
-    error.message = 'NotImplementedError'
-    throw error
+    const { cart } = await this.#getCartAndProduct(id, productId)
+    const filteredProducts = cart.products.filter(product => {
+      return product.id.toString() !== productId
+    })
+    const filter = id
+    const update = { products: filteredProducts }
+    return await this.update(filter, update)
   }
 
   async #getCartAndProduct (id, productId) {
-    const cart = await this.model.findById(id)
+    const cart = await this.get(id)
     if (!cart) {
       throw new Error('Cart not found')
     }
@@ -38,6 +43,6 @@ export class FirebaseCartRepository extends FirebaseBaseRepository {
     if (!product) {
       throw new Error('Product not found')
     }
-    return { cart, product }
+    return { cart: cart[0], product: product[0] }
   }
 }

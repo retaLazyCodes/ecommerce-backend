@@ -32,9 +32,9 @@ const deleteCart = (request, response, next) => {
 const getProductsByCartId = async (request, response, next) => {
   try {
     const cartId = request.params.id
-    const cart = await service.getProducts(cartId)
-    if (cart) {
-      response.status(200).json({ products: cart.products, success: true })
+    const products = await service.getProducts(cartId)
+    if (products) {
+      response.status(200).json({ products, success: true })
     } else {
       response.status(404).json({ success: false })
     }
