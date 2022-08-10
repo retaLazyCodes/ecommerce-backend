@@ -1,3 +1,3 @@
-DELETE http://localhost:8080/api/carrito/62ea882d8c89d3a880b63c72/productos/62ea720b9aa56428e3b1f679
+DELETE http://localhost:8080/api/carrito/62f42e0617d11e0890315520/productos/62f2f836adf022fdd1aa7e93
 content-type: application/json
 
