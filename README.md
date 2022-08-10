@@ -22,7 +22,8 @@ Microservicio para un Ecommerce. Proyecto final del curso de programación backe
 ## Requisitos para correr el proyecto de forma local
 - Tener NPM y Node.js instalado
 - Tener GIT instalado
-- Tener MongoDB instalado
+- Tener MongoDB instalado o cuenta de MongoDB Atlas
+- Tener cuenta de Firebase (opcional)
 
 ## Como instalar e iniciar el proyecto
 
@@ -50,6 +51,12 @@ npm install
 ```
 DEV_PORT=8080
 MONGO_DB_URI=mongodb://127.0.0.1:27017/ecommerce_db
+DB_SERVICE=<MONGO> | <FIREBASE> # elegir alguno de los valores entre '< >'
+
+# opcional para usar persistencia en Firestore con el valor de DB_SERVICE=FIREBASE
+FIREBASE_PROJECT_ID=<your_firebase_project_id>
+FIREBASE_PRIVATE_KEY=<your_firebase_private_key>
+FIREBASE_CLIENT_EMAIL=<your_firebase_client_email>
 ```
 
 - Con la terminal posicionada en la  carpeta raíz del proyecto correr el comando
