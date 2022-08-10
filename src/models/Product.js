@@ -8,7 +8,8 @@ const productSchema = new Schema({
   code: String,
   price: Number,
   stock: Number,
-  thumbnail: String
+  thumbnail: String,
+  cart: { type: Schema.Types.ObjectId, ref: 'Cart' }
 })
 
 productSchema.set('toJSON', {

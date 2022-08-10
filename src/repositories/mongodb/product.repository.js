@@ -1,7 +1,7 @@
-import { BaseRepository } from './base.repository.js'
+import { MongoBaseRepository } from './base.repository.js'
 import { Product } from '../../models/Product.js'
 
-export class ProductRepository extends BaseRepository {
+export class MongoProductRepository extends MongoBaseRepository {
   constructor () {
     super(Product)
   }

@@ -1,8 +1,11 @@
 import { Cart } from '../models/Cart.js'
 import { CartService } from '../services/index.js'
-import { CartRepository } from '../repositories/index.js'
+import { MongoCartRepository, FirebaseCartRepository } from '../repositories/index.js'
+import { config } from '../config/index.js'
 
-const service = new CartService(new CartRepository())
+const service = config.DB_SERVICE === 'MONGO'
+  ? new CartService(new MongoCartRepository())
+  : new CartService(new FirebaseCartRepository())
 
 const createCart = async (request, response, next) => {
   try {

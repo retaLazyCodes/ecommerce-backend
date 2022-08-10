@@ -1,4 +1,4 @@
-export class BaseRepository {
+export class MongoBaseRepository {
   constructor (model) {
     this.model = model
   }

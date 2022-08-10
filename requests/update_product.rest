@@ -1,7 +1,7 @@
-PUT http://localhost:8080/api/productos/62ea720b9aa56428e3b1f679
+PUT http://localhost:8080/api/productos/62f2e49b65c20d1835e53421
 content-type: application/json
 
 {
-"name": "Yerba mate", "price": 270, "description": "Yerba mate elaborada con palo", 
+"name": "Yerba mate", "price": 280, "description": "Yerba mate elaborada con palo", 
 "code": "YER", "stock": 25, "thumbnail": "https://www.taragui.com/img/products/x1.jpg.pagespeed.ic.0CLzXnsIOL.jpg" 
 }

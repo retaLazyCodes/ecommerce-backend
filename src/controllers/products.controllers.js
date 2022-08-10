@@ -1,8 +1,11 @@
 import { Product } from '../models/Product.js'
 import { ProductService } from '../services/index.js'
-import { ProductRepository } from '../repositories/index.js'
+import { MongoProductRepository, FirebaseProductRepository } from '../repositories/index.js'
+import { config } from '../config/index.js'
 
-const service = new ProductService(new ProductRepository())
+const service = config.DB_SERVICE === 'MONGO'
+  ? new ProductService(new MongoProductRepository())
+  : new ProductService(new FirebaseProductRepository())
 
 const getProducts = async (request, response, next) => {
   try {
@@ -22,7 +25,15 @@ const getProducts = async (request, response, next) => {
 const createProduct = async (request, response, next) => {
   try {
     const { name, price, description, code, stock, thumbnail } = request.body
-    const product = new Product({ name, price, description, code, stock, thumbnail })
+    const product = new Product({
+      name,
+      price,
+      description,
+      code,
+      stock,
+      thumbnail,
+      timestamp: new Date().toLocaleString()
+    })
     const newProduct = await service.create(product)
     response.status(201).json({ product: newProduct, success: true })
   } catch (error) {
