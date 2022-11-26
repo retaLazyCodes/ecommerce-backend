@@ -9,7 +9,7 @@ export class MongoCartRepository extends MongoBaseRepository {
 
   async getProducts (id) {
     return await this.model.findById(id)
-      .populate('products')
+      .populate('products').lean()
   }
 
   async addProduct (id, productId) {

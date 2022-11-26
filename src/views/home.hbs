@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="css/home.css" type="text/css" />
+<style>
+  .table {
+    text-align: center;
+  }
+
+  .table td,
+  .table th {
+    vertical-align: middle;
+  }
+
+  h1 {
+    color: #1c1cca;
+  }
+
+  hr {
+    background-color: #ddd;
+  }
+</style>
+
+<div class="container alert alert-success">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 style="color:darkgreen">Bienvenido {{this.username}}</h1>
+      <h2>{{this.email}}</h2>
+    </div>
+    <div class="col-md-1 offset-md-3">
+      <button style="padding: 10px; border-radius: 3px;" class="border-0 btn btn-warning float-right"
+        id="logoutbtn">Desloguear</button>
+    </div>
+    <div class="col-md-1 offset-md-1">
+      <img class="border-0 float-right" src={{this.avatar}} width="90px" height="90px" alt="" srcset="">
+    </div>
+  </div>
+</div>
+
+<br>
+<section id={{this.cart_id}} class="section-carrito">
+  <h2>Tu carrito</h2>
+
+  {{#if cartProducts.length }}
+  <div class="table-responsive">
+    <table class="table table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Foto</th>
+      </tr>
+
+      {{#each cartProducts}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>${{this.price}}</td>
+        <td><img src={{this.thumbnail}} width="60px" height="60px" alt="not found"></td>
+      </tr>
+      {{/each}}
+      <tr>
+        <td>
+        <td><b>Total:</b></td>
+        <td><b>${{this.cartProductsPrice}}</b></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><button style="padding: 10px; border-radius: 3px;" class="border-0 btn btn-success" id="buybtn">Realizar
+            compra</button></td>
+      </tr>
+    </table>
+    {{else}}
+    <h3 class="alert alert-warning">Carrito vacío</h3>
+    {{/if}}
+  </div>
+
+</section>
+
+
+<section class="section-products">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="header">
+          <h3>Productos en stock</h3>
+          <h2>Productos más vendidos</h2>
+        </div>
+      </div>
+    </div>
+    {{#if products.length }}
+    <div class="row">
+      {{this.name}}
+      <!-- Single Product -->
+      {{#each products}}
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div id={{this._id}} class="single-product">
+          <div style="background: url('{{this.thumbnail}}') no-repeat center; background-size: cover;">
+            <div class="part-1">
+              <ul>
+                <li><a href="/login" class="btnAddToCart"><i class="fas fa-shopping-cart"></i></a></li>
+                <li><a href="#"><i class="fas fa-heart"></i></a></li>
+                <li><a href="#"><i class="fas fa-plus"></i></a></li>
+                <li><a href="#"><i class="fas fa-expand"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+    {{else}}
+    <h3 class="alert alert-warning">No hay productos en stock</h3>
+    {{/if}}
+  </div>
+</section>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/home.js"></script>

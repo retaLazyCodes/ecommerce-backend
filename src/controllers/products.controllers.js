@@ -2,29 +2,33 @@ import { Product } from '../models/Product.js'
 import { ProductService } from '../services/index.js'
 import { MongoProductRepository, FirebaseProductRepository } from '../repositories/index.js'
 import { config } from '../config/index.js'
+import { logger } from '../config/logger.js'
 
 const service = config.DB_SERVICE === 'MONGO'
   ? new ProductService(new MongoProductRepository())
   : new ProductService(new FirebaseProductRepository())
 
-const getProducts = async (request, response, next) => {
+const getProducts = async (req, res, next) => {
   try {
-    const productId = request.params.id
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    const productId = req.params.id
     if (productId) {
       const product = await service.get(productId)
-      response.status(200).json({ product, success: true })
+      res.status(200).json({ product, success: true })
     } else {
       const products = await service.get()
-      response.status(200).json({ products, success: true })
+      res.status(200).json({ products, success: true })
     }
   } catch (error) {
+    logger.warn(`${req.method} ${req.originalUrl} ${res.statusCode}`)
     next(error)
   }
 }
 
-const createProduct = async (request, response, next) => {
+const createProduct = async (req, res, next) => {
   try {
-    const { name, price, description, code, stock, thumbnail } = request.body
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    const { name, price, description, code, stock, thumbnail } = req.body
     const product = new Product({
       name,
       price,
@@ -32,38 +36,43 @@ const createProduct = async (request, response, next) => {
       code,
       stock,
       thumbnail,
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date()
     })
     const newProduct = await service.create(product)
-    response.status(201).json({ product: newProduct, success: true })
+    res.status(201).json({ product: newProduct, success: true })
   } catch (error) {
+    logger.warn(`${req.method} ${req.originalUrl} ${res.statusCode}`)
     next(error)
   }
 }
 
-const updateProduct = async (request, response, next) => {
+const updateProduct = async (req, res, next) => {
   try {
-    const productId = request.params.id
-    const { name, price, description, code, stock, thumbnail } = request.body
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    const productId = req.params.id
+    const { name, price, description, code, stock, thumbnail } = req.body
     const product = { name, price, description, code, stock, thumbnail }
     service.update(productId, product).then(() => {
-      response.status(204).json({ success: true })
+      res.status(204).json({ success: true })
     })
       .catch(next)
   } catch (error) {
+    logger.warn(`${req.method} ${req.originalUrl} ${res.statusCode}`)
     next(error)
   }
 }
 
-const deleteProduct = async (request, response, next) => {
+const deleteProduct = async (req, res, next) => {
   try {
-    const productId = request.params.id
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    const productId = req.params.id
     await service.delete(productId).then(() => {
-      response.status(204).json({ success: true })
+      res.status(204).json({ success: true })
     })
       .catch(next)
   } catch (error) {
     next(error)
+    logger.warn(`${req.method} ${req.originalUrl} ${res.statusCode}`)
   }
 }
 
@@ -71,5 +80,6 @@ export default {
   getProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  service
 }

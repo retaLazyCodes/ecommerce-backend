@@ -14,12 +14,6 @@ async function getDatabaseService () {
       import('./db/firebase.js')
         .then(module => module.getDatabase())
       break
-    // case 'MYSQL':
-    //   require('./db/firebase')
-    //   break
-    // case 'SQLITE':
-    //   require('./db/firebase')
-    //   break
     default:
       throw new Error(`Unknown database service: ${DB_SERVICE}`)
   }

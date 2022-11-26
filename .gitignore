@@ -132,3 +132,6 @@ dist
 #custom
 products.json
 carts.json
+.env
+/src/public/uploads
+/src/logs

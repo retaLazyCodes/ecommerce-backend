@@ -5,9 +5,9 @@ export class MongoBaseRepository {
 
   async get (id) {
     if (!id) {
-      return await this.model.find()
+      return await this.model.find().lean()
     }
-    return await this.model.findById(id)
+    return await this.model.findById(id).lean()
   }
 
   async create (entity) {
