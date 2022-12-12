@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
-const { Schema, model } = mongoose
+const { Schema } = mongoose
 
-const cartSchema = new Schema({
+const collection = 'Cart'
+
+const schema = new Schema({
   timestamp: Date,
   products: [{
     type: Schema.Types.ObjectId,
@@ -9,7 +11,7 @@ const cartSchema = new Schema({
   }]
 })
 
-cartSchema.set('toJSON', {
+schema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id
     delete returnedObject._id
@@ -17,4 +19,7 @@ cartSchema.set('toJSON', {
   }
 })
 
-export const Cart = model('Cart', cartSchema)
+export default {
+  collection,
+  schema
+}

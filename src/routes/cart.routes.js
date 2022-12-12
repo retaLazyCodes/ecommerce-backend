@@ -1,12 +1,21 @@
 import { Router } from 'express'
-import cartController from '../controllers/cart.controllers.js'
+import CartController from '../controllers/cart.controllers.js'
 
 const router = Router()
 
-router.post('/', cartController.createCart)
-router.delete('/:id', cartController.deleteCart)
-router.get('/:id/productos', cartController.getProductsByCartId)
-router.post('/:id/productos/:id_prod', cartController.addProductToCart)
-router.delete('/:id/productos/:id_prod', cartController.deleteProductOfCart)
+// [POST] 🌐/api/cart/
+router.post('/', CartController.createCart)
+
+// [DELETE] 🌐/api/cart/:id
+router.delete('/:id', CartController.deleteCart)
+
+// [GET] 🌐/api/cart/:id/products/
+router.get('/:id/products', CartController.getProductsByCartId)
+
+// [POST] 🌐/api/cart/:id/products/:id_prod'
+router.post('/:id/products/:id_prod', CartController.addProductToCart)
+
+// [DELETE] 🌐/api/cart/:id/products/:id_prod'
+router.delete('/:id/products/:id_prod', CartController.deleteProductOfCart)
 
 export default router

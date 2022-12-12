@@ -13,7 +13,7 @@ router.post('/register', [upload.single('avatar'), passport.authenticate('regist
     '<h2 style="color:teal">Nuevo usuario registrado</h2>'
   )
   logger.info(`Message id: ${info.messageId}`)
-  res.status(302).redirect('/login')
+  res.status(201).send({ status: 'sucess', error: 'Register successful' })
 })
 
 router.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginfail' }), async (req, res) => {

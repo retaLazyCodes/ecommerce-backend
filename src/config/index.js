@@ -4,7 +4,7 @@ dotenv.config()
 const {
   DEV_PORT,
   MONGO_DB_URI,
-  DB_SERVICE,
+  PERSISTENCE_SERVICE,
   MONGO_STORE_SECRET,
   NODEMAILER_EMAIL,
   NODEMAILER_PASSWORD,
@@ -18,7 +18,7 @@ const USER_ADMIN = true
 const config = {
   USER_ADMIN,
   MONGO_DB_URI,
-  DB_SERVICE,
+  PERSISTENCE_SERVICE,
   MONGO_STORE_SECRET,
   NODEMAILER_EMAIL,
   NODEMAILER_PASSWORD,
@@ -28,11 +28,9 @@ const config = {
   server: {
     PORT: process.env.PORT ? process.env.PORT : DEV_PORT,
     routes: {
-      base: '/api',
-      products: '/api/productos',
-      carts: '/api/carrito',
-      session: '/api/sessions',
-      views: '/'
+      products: '/api/products',
+      carts: '/api/cart',
+      session: '/api/sessions'
     }
   }
 }

@@ -1,8 +1,16 @@
 import { MongoBaseRepository } from './base.repository.js'
-import { Product } from '../../models/Product.js'
+import ProductMongoDao from '../../dao/product/productsMongo.dao.js'
+import productModel from '../../models/product.model.js'
 
 export class MongoProductRepository extends MongoBaseRepository {
   constructor () {
-    super(Product)
+    super(ProductMongoDao.getInstance(), productModel)
+  }
+
+  static getInstance () {
+    if (!this.instance) {
+      this.instance = new MongoProductRepository()
+    }
+    return this.instance
   }
 }

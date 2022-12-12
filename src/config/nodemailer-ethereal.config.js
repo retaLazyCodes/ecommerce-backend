@@ -23,9 +23,8 @@ export const sendMail = async (subject, html) => {
 
   return await transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      logger.warn(`Email info error: ${JSON.stringify(info)}`)
+      logger.error(`Email info error: ${JSON.stringify(info)}`)
     } else {
-      // console.log('info', info)
       logger.info(`Email info: ${JSON.stringify(info)}`)
     }
   })

@@ -7,7 +7,7 @@ export class BaseService {
     const entity = await this.repository.get(id)
     if (!entity) {
       const error = new Error()
-      error.status = 400
+      error.status = 404
       error.message = 'Entity not found'
       throw error
     }

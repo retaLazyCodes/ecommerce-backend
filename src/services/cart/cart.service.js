@@ -1,9 +1,16 @@
 import { BaseService } from '../base/base.service.js'
 
 export class CartService extends BaseService {
-  constructor (CartRepository) {
-    super(CartRepository)
-    this._cartRepository = CartRepository
+  constructor (cartRepository) {
+    super(cartRepository)
+    this._cartRepository = cartRepository
+  }
+
+  static getInstance (cartRepository) {
+    if (!this.instance) {
+      this.instance = new CartService(cartRepository)
+    }
+    return this.instance
   }
 
   async getProducts (id) {

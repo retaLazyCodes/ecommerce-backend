@@ -17,7 +17,7 @@ export const sendSMS = async (mensaje, numero) => {
     logger.info(`SMS info: ${JSON.stringify(rta)}`)
     return rta
   } catch (error) {
-    logger.info(`SMS info: ${JSON.stringify(error)}`)
+    logger.error(`SMS info: ${JSON.stringify(error)}`)
     return error
   }
 }

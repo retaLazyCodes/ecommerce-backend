@@ -1,15 +1,25 @@
 import { MongoBaseRepository } from './base.repository.js'
 import { MongoProductRepository } from './product.repository.js'
-import { Cart } from '../../models/Cart.js'
+import CartMongoDao from '../../dao/cart/cartsMongo.dao.js'
+import mongoose from 'mongoose'
+import cartModel from '../../models/cart.model.js'
 
 export class MongoCartRepository extends MongoBaseRepository {
   constructor () {
-    super(Cart)
+    super(CartMongoDao.getInstance(), cartModel)
+    this.model = mongoose.model(cartModel.collection, cartModel.schema)
+  }
+
+  static getInstance () {
+    if (!this.instance) {
+      this.instance = new MongoCartRepository()
+    }
+    return this.instance
   }
 
   async getProducts (id) {
     return await this.model.findById(id)
-      .populate('products').lean()
+      .populate('products')
   }
 
   async addProduct (id, productId) {
