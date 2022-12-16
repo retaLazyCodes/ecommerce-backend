@@ -1,7 +1,15 @@
 import mongoose from 'mongoose'
-import { config } from '../index.js'
 
-const connectionString = config.MONGO_DB_URI
+const {
+  NODE_ENV,
+  MONGO_DB_URI,
+  MONGO_DB_URI_DEV
+} = process.env
+
+const connectionString =
+    NODE_ENV === 'production'
+      ? MONGO_DB_URI
+      : MONGO_DB_URI_DEV
 
 export default class MongoClient {
   constructor () {

@@ -13,10 +13,7 @@ const {
   TWILIO_TEL_NUMBER
 } = process.env
 
-const USER_ADMIN = true
-
 const config = {
-  USER_ADMIN,
   MONGO_DB_URI,
   PERSISTENCE_SERVICE,
   MONGO_STORE_SECRET,
@@ -30,6 +27,7 @@ const config = {
     routes: {
       products: '/api/products',
       carts: '/api/cart',
+      auth: '/api/auth',
       session: '/api/sessions'
     }
   }
