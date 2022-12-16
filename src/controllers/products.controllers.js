@@ -39,8 +39,7 @@ class ProductController {
         description,
         code,
         stock,
-        thumbnail,
-        timestamp: new Date()
+        thumbnail
       }
       const newProduct = await this.service.create(product)
       res.status(201).json({ createdProduct: newProduct, success: true })
@@ -57,7 +56,7 @@ class ProductController {
       const { name, price, description, code, stock, thumbnail } = req.body
       const product = { name, price, description, code, stock, thumbnail }
       this.service.update(productId, product).then(() => {
-        res.status(204).json({ success: true, message: 'Product updated successful' })
+        res.status(200).json({ success: true, message: 'Product updated successful' })
       })
         .catch(next)
     } catch (error) {
@@ -71,7 +70,7 @@ class ProductController {
       logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       const productId = req.params.id
       await this.service.delete(productId).then(() => {
-        res.status(204).json({ success: true, message: 'Product deleted successful' })
+        res.status(200).json({ success: true, message: 'Product deleted successful' })
       })
         .catch(next)
     } catch (error) {
