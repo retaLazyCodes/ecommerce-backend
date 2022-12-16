@@ -11,13 +11,22 @@ const schema = new Schema({
   }]
 })
 
-schema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id
-    delete returnedObject._id
-    delete returnedObject.__v
+schema.post(['find', 'findOne', 'findOneAndUpdate'], function (res) {
+  if (!this.mongooseOptions().lean) {
+    return
   }
+  if (Array.isArray(res)) {
+    res.forEach(transformDoc)
+    return
+  }
+  transformDoc(res)
 })
+
+function transformDoc (doc) {
+  doc.id = doc._id
+  delete doc._id
+  delete doc.__v
+}
 
 export default {
   collection,

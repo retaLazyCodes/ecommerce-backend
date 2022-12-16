@@ -14,13 +14,26 @@ const schema = new Schema({
   cart: { type: Schema.Types.ObjectId, ref: 'Cart' }
 })
 
-schema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id
-    delete returnedObject._id
-    delete returnedObject.__v
+schema.post(['find', 'findOne', 'findOneAndUpdate'], function (res) {
+  if (!this.mongooseOptions().lean) {
+    return
+  }
+  if (res) {
+    if (Array.isArray(res)) {
+      res.forEach(transformDoc)
+      return
+    }
+    transformDoc(res)
+  } else {
+    return null
   }
 })
+
+function transformDoc (doc) {
+  doc.id = doc._id
+  delete doc._id
+  delete doc.__v
+}
 
 export default {
   collection,
