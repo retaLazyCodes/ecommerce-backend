@@ -22,15 +22,15 @@ const validateSignup = async (req, res, next) => {
 }
 
 const validatePhone = (phoneNumber) => {
-  if (typeof phoneNumber !== 'string') return false
-  return !isNaN(phoneNumber) &&
-    !isNaN(parseFloat(phoneNumber))
+  const phoneRGX = /^\+[1-9]{1}[0-9]{3,14}$/
+  const phoneResult = phoneRGX.test(phoneNumber)
+  return phoneResult
 }
 
 const validateEmail = (email) => {
-  const emailRGEX =
+  const emailRGX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  const emailResult = emailRGEX.test(email)
+  const emailResult = emailRGX.test(email)
   return emailResult
 }
 
