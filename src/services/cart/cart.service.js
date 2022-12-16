@@ -17,11 +17,15 @@ export class CartService extends BaseService {
     return await this._cartRepository.getProducts(id)
   }
 
-  async addProduct (id, productId) {
-    return await this._cartRepository.addProduct(id, productId)
+  async addProduct (params) {
+    return await this._cartRepository.addProduct(params)
   }
 
-  async deleteProduct (id, productId) {
-    return await this._cartRepository.deleteProduct(id, productId)
+  async deleteProduct (params) {
+    return await this._cartRepository.deleteProduct(params)
+  }
+
+  async submitOrder (params) {
+    return await this._cartRepository.submitOrder(params)
   }
 }

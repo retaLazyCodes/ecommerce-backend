@@ -1,15 +1,24 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 import { User } from '../models/user.model.js'
+import cartModel from '../models/cart.model.js'
+const Cart = mongoose.model(cartModel.collection, cartModel.schema)
 
 export const signup = async (req, res, next) => {
+  const userId = req.user._id
   const email = req.user.email
 
   try {
+    const newCart = new Cart({
+      userId
+    })
+    const cart = await newCart.save()
     const userOK = await User.findOne({ email })
 
     res.status(201).json({
       message: 'Signup successful',
+      createdCart: cart,
       createdUser: userOK
     })
   } catch (error) {
@@ -24,7 +33,6 @@ export const login = async (req, res, next) => {
         const error = new Error('An error occurred.')
         return next(error)
       }
-      // Problema aqui para Swagger identificar user
       if (!user && info) {
         return res.status(401).json({ message: info.message })
       }

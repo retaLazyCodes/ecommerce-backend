@@ -3,7 +3,6 @@ import localStrategy from 'passport-local'
 import { Strategy, ExtractJwt } from 'passport-jwt'
 import path from 'path'
 import { User } from '../models/user.model.js'
-import cartController from '../controllers/cart.controllers.js'
 const LocalStrategyPL = localStrategy.Strategy
 
 const strategyOptionsSignUp = {
@@ -25,7 +24,6 @@ const signup = async (req, email, password, done) => {
   try {
     const { file } = req
     const { name, phone, isAdmin, address, age } = req.body
-    const userCart = await cartController.service.create({ timestamp: new Date(), products: [] })
     const user = await new User({
       name,
       email,
@@ -34,8 +32,7 @@ const signup = async (req, email, password, done) => {
       address,
       age,
       phone,
-      avatar: file ? path.join('/uploads/', file.filename) : process.env.DEFAULT_AVATAR,
-      cart_id: userCart._id
+      avatar: file ? path.join('/uploads/', file.filename) : process.env.DEFAULT_AVATAR
     })
     await user.save()
     const userOK = await User.findOne({ email })

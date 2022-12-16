@@ -3,19 +3,12 @@ import CartController from '../controllers/cart.controllers.js'
 
 const router = Router()
 
-// [POST] 🌐/api/cart/
-router.post('/', CartController.createCart)
+router.get('/products', CartController.getProductsOfCart)
 
-// [DELETE] 🌐/api/cart/:id
-router.delete('/:id', CartController.deleteCart)
+router.post('/products/:id_prod/:qty?', CartController.addProductToCart)
 
-// [GET] 🌐/api/cart/:id/products/
-router.get('/:id/products', CartController.getProductsByCartId)
+router.delete('/products/:id_prod/:qty?', CartController.deleteProductOfCart)
 
-// [POST] 🌐/api/cart/:id/products/:id_prod'
-router.post('/:id/products/:id_prod', CartController.addProductToCart)
-
-// [DELETE] 🌐/api/cart/:id/products/:id_prod'
-router.delete('/:id/products/:id_prod', CartController.deleteProductOfCart)
+router.post('/submit', CartController.submitOrder)
 
 export default router

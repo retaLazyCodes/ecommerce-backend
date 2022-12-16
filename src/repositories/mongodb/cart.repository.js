@@ -18,26 +18,81 @@ export class MongoCartRepository extends MongoBaseRepository {
   }
 
   async getProducts (id) {
-    return await this.model.findById(id)
-      .populate('products')
+    return await this.model.find({ userId: id }).lean()
   }
 
-  async addProduct (id, productId) {
-    const { cart, product } = await this.#getCartAndProduct(id, productId)
-    cart.products.push(product)
-    const filter = id
-    const update = { products: cart.products }
-    return await this.model.findByIdAndUpdate(filter, update)
+  async addProduct (params) {
+    const {
+      userId,
+      productId,
+      qty
+    } = params
+
+    const cart = await this.getProducts(userId)
+    if (cart.length) {
+      const cartItems = cart[0].items
+
+      const indexOfItem = cartItems.findIndex(
+        (el) => el.productId.equals(productId)
+      )
+
+      // Si el producto ya se encuentra en el carrito:
+      if (indexOfItem !== -1) {
+        cartItems[indexOfItem].productQty += qty
+
+        // Si el producto no se encuentra en el carrito
+      } else {
+        const newItem = {
+          productId,
+          productQty: qty
+        }
+        cartItems.push(newItem)
+      }
+      await this.model.updateOne(
+        { userId },
+        { $set: { items: cartItems } }
+      )
+    }
   }
 
-  async deleteProduct (id, productId) {
-    const { cart } = await this.#getCartAndProduct(id, productId)
-    const filteredProducts = cart.products.filter(product => {
-      return product._id.toString() !== productId
-    })
-    const filter = id
-    const update = { products: filteredProducts }
-    return await this.model.findByIdAndUpdate(filter, update)
+  async deleteProduct (params) {
+    const {
+      userId,
+      productId,
+      qty
+    } = params
+
+    const cart = await this.getProducts(userId)
+    if (cart.length) {
+      const cartItems = cart[0].items
+
+      const indexOfItem = cartItems.findIndex(
+        (el) => el.productId.equals(productId)
+      )
+
+      if (indexOfItem !== -1) {
+        if (cartItems[indexOfItem].productQty < qty) {
+          const error = new Error()
+          error.status = 400
+          error.message = 'Quantity greater than existing in the cart'
+          throw error
+        }
+        cartItems[indexOfItem].productQty -= qty
+      } else {
+        const error = new Error()
+        error.status = 404
+        error.message = 'Product not found in the cart'
+        throw error
+      }
+      // Si el producto a quitar queda con cantidad cero, se elimina del carrito
+      if (indexOfItem !== -1 && cartItems[indexOfItem].productQty === 0) {
+        cartItems.splice(indexOfItem, 1)
+      }
+      await this.model.updateOne(
+        { userId },
+        { $set: { items: cartItems } }
+      )
+    }
   }
 
   async #getCartAndProduct (id, productId) {
@@ -51,5 +106,9 @@ export class MongoCartRepository extends MongoBaseRepository {
       throw new Error('Product not found')
     }
     return { cart, product }
+  }
+
+  async submitOrder (params) {
+    // TODO:
   }
 }

@@ -4,6 +4,7 @@ import { productsRouter, cartsRouter, authRouter, sessionRouter } from './routes
 import { config } from './config/index.js'
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
+import passport from 'passport'
 
 const app = express()
 app.use(express.json())
@@ -18,17 +19,23 @@ app.use(session({
   }),
   secret: config.MONGO_STORE_SECRET,
   resave: false,
-  saveUninitialized: false,
-  rolling: false,
-  cookie: {
-    maxAge: 600000
-  }
+  saveUninitialized: false
 }))
 
 // Router Middlewares
-app.use(config.server.routes.products, productsRouter)
-app.use(config.server.routes.carts, cartsRouter)
-app.use(config.server.routes.auth, authRouter)
+app.use(
+  config.server.routes.products,
+  productsRouter
+)
+app.use(
+  config.server.routes.carts,
+  passport.authenticate('jwt', { session: false }),
+  cartsRouter
+)
+app.use(
+  config.server.routes.auth,
+  authRouter
+)
 app.use(config.server.routes.session, sessionRouter)
 
 // custom middlewares
