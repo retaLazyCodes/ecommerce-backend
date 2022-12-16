@@ -1,9 +1,8 @@
 import { Router } from 'express'
+import passport from 'passport'
 import ProductController from '../controllers/products.controllers.js'
-import { authorizeUserRole } from '../middlewares/authorizeUserRole.js'
-import { config } from '../config/index.js'
-
-const USER_ROLE = config.USER_ADMIN
+import { isAdminFunc } from '../middlewares/auth.js'
+const passportOK = passport.authenticate('jwt', { session: false })
 
 const router = Router()
 
@@ -11,12 +10,12 @@ const router = Router()
 router.get('/:id?', ProductController.getProducts)
 
 // [POST] 🌐/api/products/
-router.post('/', authorizeUserRole(USER_ROLE), ProductController.createProduct)
+router.post('/', passportOK, isAdminFunc, ProductController.createProduct)
 
 // [PUT] 🌐/api/products/:id
-router.put('/:id', authorizeUserRole(USER_ROLE), ProductController.updateProduct)
+router.put('/:id', passportOK, isAdminFunc, ProductController.updateProduct)
 
 // [DELETE] 🌐/api/products/:id
-router.delete('/:id', authorizeUserRole(USER_ROLE), ProductController.deleteProduct)
+router.delete('/:id', passportOK, isAdminFunc, ProductController.deleteProduct)
 
 export default router
