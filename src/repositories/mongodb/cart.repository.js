@@ -1,8 +1,9 @@
 import { MongoBaseRepository } from './base.repository.js'
-import { MongoProductRepository } from './product.repository.js'
 import CartMongoDao from '../../dao/cart/cartsMongo.dao.js'
 import mongoose from 'mongoose'
 import cartModel from '../../models/cart.model.js'
+import { Order } from '../../models/order.model.js'
+import productsController from '../../controllers/products.controllers.js'
 
 export class MongoCartRepository extends MongoBaseRepository {
   constructor () {
@@ -95,20 +96,60 @@ export class MongoCartRepository extends MongoBaseRepository {
     }
   }
 
-  async #getCartAndProduct (id, productId) {
-    const cart = await this.model.findById(id)
-    if (!cart) {
-      throw new Error('Cart not found')
-    }
-    const productRepository = new MongoProductRepository()
-    const product = await productRepository.get(productId)
-    if (!product) {
-      throw new Error('Product not found')
-    }
-    return { cart, product }
-  }
+  async submitOrder (userId) {
+    const cart = await this.getProducts(userId)
+    const products = await productsController.service.get()
+    if (cart) {
+      const newArrayOfIds = []
+      const cartItems = cart[0].items
+      const cartItemsCopy = [...cartItems]
 
-  async submitOrder (params) {
-    // TODO:
+      cartItems.forEach((item) => {
+        newArrayOfIds.push(item.productId)
+      })
+
+      function getPriceOfProduct (allProducts, cartItemId) {
+        let indexProduct = 0
+        indexProduct = allProducts.findIndex((prod) => {
+          return prod.id.equals(cartItemId)
+        })
+        console.log(indexProduct)
+
+        if (indexProduct !== -1) {
+          const productPrice = allProducts[indexProduct].price
+          return productPrice
+        }
+      }
+
+      function generateArrayOfCartItemsWPrice (cartItemsCopy, newArrayOfIds) {
+        for (let index = 0; index < newArrayOfIds.length; index++) {
+          const cartItemId = newArrayOfIds[index].toString()
+          const price = getPriceOfProduct(products, cartItemId)
+          cartItemsCopy[index].productPrice = price
+        }
+        return cartItemsCopy
+      }
+
+      const arrayProductsWithPrice = generateArrayOfCartItemsWPrice(
+        cartItemsCopy,
+        newArrayOfIds
+      )
+
+      const totalPrice = arrayProductsWithPrice.reduce(
+        (accum, item) => accum + item.productQty * item.productPrice,
+        0
+      )
+
+      const newOrder = new Order({
+        userId,
+        items: [...arrayProductsWithPrice],
+        total: totalPrice
+      })
+      const createdOrder = await newOrder.save()
+      console.log('creado--------------', createdOrder)
+      const plainOrder = JSON.stringify(createdOrder)
+      return plainOrder
+    }
+    return null
   }
 }

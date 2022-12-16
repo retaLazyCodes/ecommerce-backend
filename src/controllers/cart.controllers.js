@@ -1,5 +1,6 @@
 import PersistenceFactory from '../config/Factory.js'
 import { logger } from '../config/logger.js'
+import { sendMail } from '../config/nodemailer-ethereal.config.js'
 
 class CartController {
   constructor () {
@@ -66,11 +67,28 @@ class CartController {
     }
   }
 
-  submitOrder = (req, res, next) => {
-    const error = new Error()
-    error.status = 500
-    error.message = 'Method not implemented'
-    throw error
+  submitOrder = async (req, res, next) => {
+    const userId = req.user._id
+    const email = req.user.email
+    try {
+      logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+      const createdOrder = await this.service.submitOrder(userId)
+      if (createdOrder) {
+        const info = await sendMail(
+          email,
+          'Nueva orden generada',
+          'orden',
+          createdOrder
+        )
+        logger.info(`Message id: ${info}`)
+        res.status(200).json({ success: true, message: 'Order submitted successfully' })
+      } else {
+        res.status(500).json({ success: true, message: 'An error occurred while trying to generate the order' })
+      }
+    } catch (error) {
+      logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+      next(error)
+    }
   }
 }
 

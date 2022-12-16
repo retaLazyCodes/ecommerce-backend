@@ -11,14 +11,14 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-const TEST_EMAIL = 'gus63@ethereal.email'
-
-export const sendMail = async (subject, html) => {
+export const sendMail = async (userEmail, subject, html, orden) => {
   const mailOptions = {
     from: 'Servidor Node.js',
-    to: TEST_EMAIL,
+    to: userEmail,
     subject,
-    html
+    html: html === 'orden'
+      ? `<h2 style="color:teal">Tu orden fue aceptada!</h2><p> <h3>Orden:</h3><br/> ${orden}</p>`
+      : '<h2 style="color:teal">Registro existoso!</h2>'
   }
 
   return await transporter.sendMail(mailOptions, (err, info) => {
