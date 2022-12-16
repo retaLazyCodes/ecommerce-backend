@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
 import upload from '../middlewares/upload.js'
-import { sendMail } from '../config/nodemailer-ethereal.config.js'
+import { sendMail } from '../config/nodemailer.config.js'
 import { logger } from '../config/logger.js'
 
 const router = Router()

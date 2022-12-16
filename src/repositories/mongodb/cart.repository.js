@@ -113,7 +113,6 @@ export class MongoCartRepository extends MongoBaseRepository {
         indexProduct = allProducts.findIndex((prod) => {
           return prod.id.equals(cartItemId)
         })
-        console.log(indexProduct)
 
         if (indexProduct !== -1) {
           const productPrice = allProducts[indexProduct].price
@@ -146,9 +145,7 @@ export class MongoCartRepository extends MongoBaseRepository {
         total: totalPrice
       })
       const createdOrder = await newOrder.save()
-      console.log('creado--------------', createdOrder)
-      const plainOrder = JSON.stringify(createdOrder)
-      return plainOrder
+      return createdOrder
     }
     return null
   }
