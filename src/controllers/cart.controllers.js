@@ -75,13 +75,12 @@ class CartController {
       logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       const createdOrder = await this.service.submitOrder(userId)
       if (createdOrder) {
-        const info = await sendMail(
+        await sendMail(
           email,
           `Nuevo pedido de ${name} ${email}`,
           'orden',
           JSON.stringify(createdOrder)
         )
-        logger.info(`Message id: ${info}`)
         await sendSMS(
           `Nuevo pedido a nombre de ${name} ${email} fue recibido. Su estado actual es ${createdOrder.status}.\nOrden:\n${JSON.stringify(createdOrder)}\nTotal: $ ${createdOrder.total}`,
           phone

@@ -1,6 +1,7 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+import { logger } from '../config/logger.js'
 import { User } from '../models/user.model.js'
 import cartModel from '../models/cart.model.js'
 import { sendMail } from '../config/nodemailer.config.js'
@@ -12,13 +13,14 @@ export const signup = async (req, res, next) => {
   const name = req.user.name
 
   try {
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
     const newCart = new Cart({
       userId
     })
     const cart = await newCart.save()
     const userOK = await User.findOne({ email })
 
-    const info = await sendMail(
+    await sendMail(
       userOK.email,
       'Nuevo registro',
       'registro',
@@ -31,13 +33,15 @@ export const signup = async (req, res, next) => {
       createdUser: userOK
     })
   } catch (error) {
-    return next(error)
+    logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    next(error)
   }
 }
 
 export const login = async (req, res, next) => {
   passport.authenticate('login', async (err, user, info) => {
     try {
+      logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       if (err) {
         const error = new Error('An error occurred.')
         return next(error)
@@ -55,7 +59,8 @@ export const login = async (req, res, next) => {
         return res.status(200).json({ message: token })
       })
     } catch (error) {
-      return next(error)
+      logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+      next(error)
     }
   })(req, res, next)
 }

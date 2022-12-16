@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cartModel from '../../models/cart.model.js'
 import { Order } from '../../models/order.model.js'
 import productsController from '../../controllers/products.controllers.js'
+import CustomError from '../../errors/CustomError.js'
 
 export class MongoCartRepository extends MongoBaseRepository {
   constructor () {
@@ -73,17 +74,11 @@ export class MongoCartRepository extends MongoBaseRepository {
 
       if (indexOfItem !== -1) {
         if (cartItems[indexOfItem].productQty < qty) {
-          const error = new Error()
-          error.status = 400
-          error.message = 'Quantity greater than existing in the cart'
-          throw error
+          throw new CustomError(400, 'Quantity greater than existing in the cart', {})
         }
         cartItems[indexOfItem].productQty -= qty
       } else {
-        const error = new Error()
-        error.status = 404
-        error.message = 'Product not found in the cart'
-        throw error
+        throw new CustomError(404, 'Product not found in the cart', {})
       }
       // Si el producto a quitar queda con cantidad cero, se elimina del carrito
       if (indexOfItem !== -1 && cartItems[indexOfItem].productQty === 0) {
