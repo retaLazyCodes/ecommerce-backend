@@ -1,6 +1,7 @@
 import PersistenceFactory from '../config/Factory.js'
 import { logger } from '../config/logger.js'
-import { sendMail } from '../config/nodemailer-ethereal.config.js'
+import { sendMail } from '../config/nodemailer.config.js'
+import { sendSMS } from '../config/twilio-sms.config.js'
 
 class CartController {
   constructor () {
@@ -69,18 +70,22 @@ class CartController {
 
   submitOrder = async (req, res, next) => {
     const userId = req.user._id
-    const email = req.user.email
+    const { name, email, phone } = req.user
     try {
       logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       const createdOrder = await this.service.submitOrder(userId)
       if (createdOrder) {
         const info = await sendMail(
           email,
-          'Nueva orden generada',
+          `Nuevo pedido de ${name} ${email}`,
           'orden',
-          createdOrder
+          JSON.stringify(createdOrder)
         )
         logger.info(`Message id: ${info}`)
+        await sendSMS(
+          `Nuevo pedido a nombre de ${name} ${email} fue recibido. Su estado actual es ${createdOrder.status}.\nOrden:\n${JSON.stringify(createdOrder)}\nTotal: $ ${createdOrder.total}`,
+          phone
+        )
         res.status(200).json({ success: true, message: 'Order submitted successfully' })
       } else {
         res.status(500).json({ success: true, message: 'An error occurred while trying to generate the order' })

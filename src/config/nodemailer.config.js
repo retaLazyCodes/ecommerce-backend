@@ -1,9 +1,9 @@
 import nodemailer from 'nodemailer'
 import { config } from './index.js'
-import { logger } from '../config/logger.js'
+import { logger } from './logger.js'
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
+  host: 'smtp.gmail.com',
   port: 587,
   auth: {
     user: config.NODEMAILER_EMAIL,
@@ -11,14 +11,14 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-export const sendMail = async (userEmail, subject, html, orden) => {
+export const sendMail = async (userEmail, subject, html, customText) => {
   const mailOptions = {
     from: 'Servidor Node.js',
     to: userEmail,
     subject,
     html: html === 'orden'
-      ? `<h2 style="color:teal">Tu orden fue aceptada!</h2><p> <h3>Orden:</h3><br/> ${orden}</p>`
-      : '<h2 style="color:teal">Registro existoso!</h2>'
+      ? `<h2 style="color:teal">Tu orden fue aceptada!</h2><p> <h3>Orden:</h3><br/> ${customText}</p>`
+      : `<h2 style="color:teal">Registro existoso!</h2><br><h3>Bienvenido ${customText}</h3>`
   }
 
   return await transporter.sendMail(mailOptions, (err, info) => {
