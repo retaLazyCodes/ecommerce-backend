@@ -4,22 +4,48 @@ const { Schema } = mongoose
 const collection = 'Cart'
 
 const schema = new Schema({
-  timestamp: Date,
-  products: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Product'
-  }]
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  items: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+      },
+      productQty: {
+        type: Number
+      }
+    }
+  ]
+},
+{
+  timestamps: true
+})
+
+schema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
 })
 
 schema.post(['find', 'findOne', 'findOneAndUpdate'], function (res) {
   if (!this.mongooseOptions().lean) {
     return
   }
-  if (Array.isArray(res)) {
-    res.forEach(transformDoc)
-    return
+  if (res) {
+    if (Array.isArray(res)) {
+      res.forEach(transformDoc)
+      return
+    }
+    transformDoc(res)
+  } else {
+    return null
   }
-  transformDoc(res)
 })
 
 function transformDoc (doc) {

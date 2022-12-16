@@ -8,11 +8,10 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
-  address: String,
-  age: Number,
-  phone: String,
-  avatar: String,
-  cart_id: String
+  address: { type: String, required: true },
+  age: { type: Number, required: true },
+  phone: { type: String, required: true },
+  avatar: { type: String, required: false }
 })
 
 userSchema.set('toJSON', {

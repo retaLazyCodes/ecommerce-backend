@@ -4,14 +4,23 @@ const { Schema } = mongoose
 const collection = 'Product'
 
 const schema = new Schema({
-  timestamp: Date,
-  name: String,
-  description: String,
-  code: String,
-  price: Number,
-  stock: Number,
-  thumbnail: String,
-  cart: { type: Schema.Types.ObjectId, ref: 'Cart' }
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  code: { type: String, required: true },
+  price: { type: Number, required: true },
+  stock: { type: Number, required: true },
+  thumbnail: { type: String, required: false }
+},
+{
+  timestamps: true
+})
+
+schema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
 })
 
 schema.post(['find', 'findOne', 'findOneAndUpdate'], function (res) {
