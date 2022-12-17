@@ -1,6 +1,6 @@
 import express from 'express'
 import { notFound } from './middlewares/notFound.js'
-import { productsRouter, cartsRouter, authRouter, sessionRouter } from './routes/index.js'
+import { productsRouter, cartsRouter, authRouter, orderRouter } from './routes/index.js'
 import { config } from './config/index.js'
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
@@ -19,7 +19,11 @@ app.use(session({
   }),
   secret: config.MONGO_STORE_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  rolling: false,
+  cookie: {
+    maxAge: 600000
+  }
 }))
 
 // Router Middlewares
@@ -28,15 +32,19 @@ app.use(
   productsRouter
 )
 app.use(
+  config.server.routes.auth,
+  authRouter
+)
+app.use(
   config.server.routes.carts,
   passport.authenticate('jwt', { session: false }),
   cartsRouter
 )
 app.use(
-  config.server.routes.auth,
-  authRouter
+  config.server.routes.order,
+  passport.authenticate('jwt', { session: false }),
+  orderRouter
 )
-app.use(config.server.routes.session, sessionRouter)
 
 // custom middlewares
 app.use(notFound)

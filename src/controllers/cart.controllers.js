@@ -78,7 +78,7 @@ class CartController {
         await sendMail(
           email,
           `Nuevo pedido de ${name} ${email}`,
-          'orden',
+          'orden_generada',
           JSON.stringify(createdOrder)
         )
         await sendSMS(

@@ -28,7 +28,7 @@ const config = {
       products: '/api/products',
       carts: '/api/cart',
       auth: '/api/auth',
-      session: '/api/sessions'
+      order: '/api/orders'
     }
   }
 }

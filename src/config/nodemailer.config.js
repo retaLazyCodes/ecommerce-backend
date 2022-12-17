@@ -16,9 +16,13 @@ export const sendMail = async (userEmail, subject, html, customText) => {
     from: 'Servidor Node.js',
     to: userEmail,
     subject,
-    html: html === 'orden'
-      ? `<h2 style="color:teal">Tu orden fue aceptada!</h2><p> <h3>Orden:</h3><br/> ${customText}</p>`
-      : `<h2 style="color:teal">Registro existoso!</h2><br><h3>Bienvenido ${customText}</h3>`
+    html: html === 'orden_generada'
+      ? `<h2 style="color:teal">Tu orden fue aceptada!</h2><p><h3>Orden:</h3><br/> ${customText}</p>`
+      : (
+          html === 'orden_completada'
+            ? `<h2 style="color:teal">Tu orden fue completada!</h2><p><h3>Orden:</h3><br/> ${customText}</p>`
+            : `<h2 style="color:teal">Registro existoso!</h2><br><h3>Bienvenido ${customText}</h3>`
+        )
   }
 
   return await transporter.sendMail(mailOptions, (err, info) => {
