@@ -2,7 +2,6 @@
 const validateSignup = async (req, res, next) => {
   const { name, email, phone, password } =
     req.body
-  console.log(req.body)
 
   switch (true) {
     case !validateName(name):
@@ -16,7 +15,6 @@ const validateSignup = async (req, res, next) => {
         message: 'La contraseña debe tener por lo menos 6 caracteres'
       })
     default:
-      console.log('Validacion OK')
       next()
   }
 }
@@ -36,7 +34,6 @@ const validateEmail = (email) => {
 
 // Acepta acentos, apóstrofes, pero no números ni caracteres especiales
 const validateName = (name) => {
-  // let name = "Robert's Dajoú's Yaça ñata Shön";
   const nameRGX = /^[a-záàâãéèêíïóôõöúçñ' ]+$/i
   const nameResult = nameRGX.test(name)
   return nameResult

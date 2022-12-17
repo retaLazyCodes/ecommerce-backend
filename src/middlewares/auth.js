@@ -47,7 +47,7 @@ const login = async (email, password, done) => {
     const user = await User.findOne({ email })
 
     if (!user) {
-      return done(null, false, { message: 'User not found' })
+      return done(null, false, { message: 'User dont exists' })
     }
 
     const validate = await user.isValidPassword(password)

@@ -47,7 +47,7 @@ export const login = async (req, res, next) => {
         return next(error)
       }
       if (!user && info) {
-        return res.status(401).json({ message: info.message })
+        return res.status(400).json({ message: info.message })
       }
 
       req.login(user, { session: false }, async (error) => {
