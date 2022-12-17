@@ -18,7 +18,7 @@ API REST para un Ecommerce. Proyecto final del curso de programación backend de
 Desde la terminal ingresando:
 
 ```
-git clone https://github.com/retaLazyCodes/ecommerce-backend
+git clone -b entrega04 https://github.com/retaLazyCodes/ecommerce-backend
 ```
 
 ### 2 - Instalación de dependencias
