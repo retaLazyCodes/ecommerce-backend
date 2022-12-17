@@ -74,6 +74,7 @@ router.get('/:id', ProductController.getProducts)
  *               example: Yerba mate
  *             price:
  *               type: Number
+ *               minimum: 1
  *               example: 500
  *             description:
  *               type: string
@@ -83,6 +84,7 @@ router.get('/:id', ProductController.getProducts)
  *               example: 2F3
  *             stock:
  *               type: Number
+ *               minimum: 1
  *               example: 50
  *     responses:
  *       201:
@@ -123,6 +125,7 @@ router.post('/', passportOK, isAdminFunc, ProductController.createProduct)
  *               example: Yerba mate suave
  *             price:
  *               type: Number
+ *               minimum: 1
  *               example: 300
  *             description:
  *               type: string
@@ -132,6 +135,7 @@ router.post('/', passportOK, isAdminFunc, ProductController.createProduct)
  *               example: 2F3
  *             stock:
  *               type: Number
+ *               minimum: 1
  *               example: 50
  *     responses:
  *       200:
