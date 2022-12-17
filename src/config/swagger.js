@@ -1,6 +1,5 @@
 import swaggerJsDoc from 'swagger-jsdoc'
 
-// Extended: https://swagger.io/specification/#infoObject
 const swaggerOptions = {
   swaggerDefinition: {
     swagger: '2.0',
@@ -12,7 +11,7 @@ const swaggerOptions = {
     securityDefinitions: {
       bearerAuth: {
         type: 'apiKey',
-        name: 'token',
+        name: 'Authorization',
         scheme: 'bearer',
         in: 'header'
       }

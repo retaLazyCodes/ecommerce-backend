@@ -33,7 +33,7 @@ app.use('/api-docs',
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocs)
 )
-console.log(swaggerDocs)
+
 // Router Middlewares
 app.use(
   config.server.routes.products,
