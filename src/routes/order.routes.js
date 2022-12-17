@@ -1,5 +1,8 @@
 import { Router } from 'express'
+import passport from 'passport'
 import OrderController from '../controllers/order.controllers.js'
+import { isUserFunc } from '../middlewares/auth.js'
+const passportOK = passport.authenticate('jwt', { session: false })
 
 const router = Router()
 
@@ -25,7 +28,7 @@ const router = Router()
  *       401:
  *         description: You do not have necessary permissions to get the resource
  */
-router.get('/', OrderController.getOrder)
+router.get('/', passportOK, isUserFunc, OrderController.getOrder)
 
 /**
  * @swagger
@@ -50,7 +53,7 @@ router.get('/', OrderController.getOrder)
  *       404:
  *         description: The requested order was not found
  */
-router.get('/:orderId', OrderController.getOrderById)
+router.get('/:orderId', passportOK, isUserFunc, OrderController.getOrderById)
 
 /**
  * @swagger
@@ -77,6 +80,6 @@ router.get('/:orderId', OrderController.getOrderById)
  *       404:
  *         description: The requested order was not found
  */
-router.post('/complete/:orderId', OrderController.completeOrder)
+router.post('/complete/:orderId', passportOK, isUserFunc, OrderController.completeOrder)
 
 export default router

@@ -92,12 +92,31 @@ export const isAdminFunc = async (req, res, next) => {
     } else {
       return res
         .status(401)
-        .send({ message: 'Only allowed to administrator users', success: false })
+        .send({ message: 'Only allowed to admin users', success: false })
     }
   } catch (error) {
     return res
       .status(401)
-      .send({ message: 'Only allowed to administrator users', success: false })
+      .send({ message: 'Only allowed to admin users', success: false })
+  }
+}
+
+export const isUserFunc = async (req, res, next) => {
+  const userId = req.user._id
+  try {
+    const userFound = await User.findOne({ _id: userId })
+    const isAdmin = userFound.isAdmin
+    if (!isAdmin) {
+      next()
+    } else {
+      return res
+        .status(401)
+        .send({ message: 'Admin users can not buy', success: false })
+    }
+  } catch (error) {
+    return res
+      .status(401)
+      .send({ message: 'Admin users can not buy', success: false })
   }
 }
 

@@ -1,5 +1,8 @@
 import { Router } from 'express'
+import passport from 'passport'
 import CartController from '../controllers/cart.controllers.js'
+import { isUserFunc } from '../middlewares/auth.js'
+const passportOK = passport.authenticate('jwt', { session: false })
 
 const router = Router()
 
@@ -25,7 +28,7 @@ const router = Router()
  *       401:
  *         description: You do not have necessary permissions to get the resource
  */
-router.get('/products', CartController.getCart)
+router.get('/products', passportOK, isUserFunc, CartController.getCart)
 
 /**
  * @swagger
@@ -56,7 +59,7 @@ router.get('/products', CartController.getCart)
  *       404:
  *         description: The requested product was not found
  */
-router.post('/products/:id_prod/:qty?', CartController.addProductToCart)
+router.post('/products/:id_prod/:qty?', passportOK, isUserFunc, CartController.addProductToCart)
 
 /**
  * @swagger
@@ -87,7 +90,7 @@ router.post('/products/:id_prod/:qty?', CartController.addProductToCart)
  *       404:
  *         description: The requested product was not found
  */
-router.delete('/products/:id_prod/:qty?', CartController.deleteProductOfCart)
+router.delete('/products/:id_prod/:qty?', passportOK, isUserFunc, CartController.deleteProductOfCart)
 
 /**
  * @swagger
@@ -104,6 +107,6 @@ router.delete('/products/:id_prod/:qty?', CartController.deleteProductOfCart)
  *       401:
  *         description: You do not have necessary permissions to get the resource
  */
-router.post('/submit', CartController.submitOrder)
+router.post('/submit', passportOK, isUserFunc, CartController.submitOrder)
 
 export default router

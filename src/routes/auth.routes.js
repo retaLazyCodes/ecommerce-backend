@@ -115,7 +115,7 @@ router.post('/login', login)
  *       200:
  *         description: Returns the data of the authenticated user
  *       401:
- *        description: You do not have necessary permissions to get the resource
+ *        description: You are not authenticated
  */
 router.get('/me', passportOK, authMe)
 
