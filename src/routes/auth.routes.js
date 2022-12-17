@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import passport from 'passport'
 import upload from '../middlewares/upload.js'
-import { login, signup } from '../controllers/auth.controllers.js'
+import { login, signup, authMe } from '../controllers/auth.controllers.js'
 import { validateSignup } from '../validators/validateSignup.js'
+const passportOK = passport.authenticate('jwt', { session: false })
 const router = Router()
 
 /**
@@ -17,8 +18,6 @@ const router = Router()
  * paths:
  *  /api/auth/signup:
  *   post:
- *     security:
- *      - bearerAuth: []
  *     summary: Create a new user
  *     tags: [Auth]
  *     parameters:
@@ -77,8 +76,6 @@ router.post(
  * paths:
  *  /api/auth/login:
  *   post:
- *     security:
- *      - bearerAuth: []
  *     summary: Authenticate a user
  *     tags: [Auth]
  *     parameters:
@@ -104,5 +101,20 @@ router.post(
  *         description: The email or password is not valid
  */
 router.post('/login', login)
+
+/**
+ * @swagger
+ * paths:
+ *  /api/auth/me:
+ *   get:
+ *     summary: Show the data of the authenticated user
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Returns the data of the authenticated user
+ *       401:
+ *        description: You do not have necessary permissions to get the resource
+ */
+router.get('/me', passportOK, authMe)
 
 export default router

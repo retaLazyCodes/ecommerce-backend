@@ -64,3 +64,15 @@ export const login = async (req, res, next) => {
     }
   })(req, res, next)
 }
+
+export const authMe = async (req, res, next) => {
+  try {
+    logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    res.status(201).json({
+      user: req.user
+    })
+  } catch (error) {
+    logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
+    next(error)
+  }
+}
