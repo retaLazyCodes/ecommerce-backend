@@ -5,6 +5,8 @@ import { config } from './config/index.js'
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
 import passport from 'passport'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDocs from './config/swagger.js'
 
 const app = express()
 app.use(express.json())
@@ -25,6 +27,12 @@ app.use(session({
     maxAge: 600000
   }
 }))
+
+// setup swagger
+app.use('/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocs)
+)
 
 // Router Middlewares
 app.use(
