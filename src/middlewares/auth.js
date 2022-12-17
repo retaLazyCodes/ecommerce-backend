@@ -92,12 +92,12 @@ export const isAdminFunc = async (req, res, next) => {
     } else {
       return res
         .status(401)
-        .send({ message: 'Solo permitido a administradores' })
+        .send({ message: 'Only allowed to administrator users', success: false })
     }
   } catch (error) {
     return res
       .status(401)
-      .send({ message: 'Solo permitido a administradores' })
+      .send({ message: 'Only allowed to administrator users', success: false })
   }
 }
 

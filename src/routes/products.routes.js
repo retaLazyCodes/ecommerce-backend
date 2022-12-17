@@ -41,9 +41,9 @@ router.get('/', ProductController.getProducts)
  *        example: 60f86030c4970119bf774bb8
  *     responses:
  *       200:
- *         description: Return the solicited product
+ *         description: Return the requested product
  *       404:
- *         description: The solicited product was not found
+ *         description: The requested product was not found
  */
 router.get('/:id', ProductController.getProducts)
 

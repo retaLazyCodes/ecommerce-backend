@@ -107,6 +107,8 @@ router.post('/login', login)
  * paths:
  *  /api/auth/me:
  *   get:
+ *     security:
+ *      - bearerAuth: []
  *     summary: Show the data of the authenticated user
  *     tags: [Auth]
  *     responses:

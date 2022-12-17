@@ -14,15 +14,15 @@ class CartController {
     })
   }
 
-  getProductsOfCart = async (req, res, next) => {
+  getCart = async (req, res, next) => {
     const userId = req.user._id
     try {
       logger.http(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       const cart = await this.service.getProducts(userId)
-      if (cart) {
+      if (cart[0].items.length > 0) {
         res.status(200).json({ products: cart[0].items, success: true })
       } else {
-        res.status(404).json({ success: false })
+        res.status(200).json({ message: 'Carrito vacío', success: true })
       }
     } catch (error) {
       logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
@@ -85,7 +85,7 @@ class CartController {
           `Nuevo pedido a nombre de ${name} ${email} fue recibido. Su estado actual es ${createdOrder.status}.\nOrden:\n${JSON.stringify(createdOrder)}\nTotal: $ ${createdOrder.total}`,
           phone
         )
-        res.status(200).json({ success: true, message: 'Order submitted successfully' })
+        res.status(201).json({ success: true, message: 'Order submitted successfully' })
       } else {
         res.status(500).json({ success: true, message: 'An error occurred while trying to generate the order' })
       }

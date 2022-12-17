@@ -21,7 +21,11 @@ class ProductController {
         res.status(200).json({ product, success: true })
       } else {
         const products = await this.service.get()
-        res.status(200).json({ products, success: true })
+        if (products.length > 0) {
+          res.status(200).json({ products, success: true })
+        } else {
+          res.status(200).json({ message: 'There is not stored products', success: true })
+        }
       }
     } catch (error) {
       logger.error(`${req.method} ${req.originalUrl} ${res.statusCode}`)
