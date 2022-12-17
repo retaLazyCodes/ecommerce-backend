@@ -1,9 +1,0 @@
-#Probar endpoint utilizando la extension de VSCode 'REST Client'
-#y pulsando el boton 'Send Request' que aparece debajo de este mensaje
-POST http://localhost:8080/api/productos
-content-type: application/json
-
-{
-"name": "Pitusas", "price": 160, "description": "Galletitas Pitusas", 
-"code": "343", "stock": 30, "thumbnail": "https://www.zanettigolosinas.com.ar/datos/uploads/mod_catalogo/32431/galletitas-pitusas-limon-160g-620678b05f1e3_thumbnail.png" 
-}

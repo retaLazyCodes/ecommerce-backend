@@ -1,3 +1,0 @@
-GET http://localhost:8080/api/carrito/62f42e0617d11e0890315520/productos
-content-type: application/json
-
